@@ -58,6 +58,8 @@ then
     echo -e "$Y Mysql root password is not setup, setting now. $N" &>>$LOG_FILE
     mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOG_FILE
     VALIDATE $? "Setting up root password"
+else
+    echo -e "$Y Mysql password is already setup, skipping. $N" &>>$LOG_FILE
 fi
 
 echo -e "$Y Script completed execution successfully at: $(date) $N" | tee -a $LOG_FILE
