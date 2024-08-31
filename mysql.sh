@@ -52,11 +52,11 @@ VALIDATE $? "Enabled mysql-server"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Started mysql-server"
 
-mysql -h trmadaws.online -u root -p<password> -e 'show databases;' &>>$LOG_FILE
+mysql -h trmadaws.online -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     echo -e "$Y Mysql root password is not setup, setting now. $N" &>>$LOG_FILE
-    mysql_secure_installation --set-root-pass <password> &>>$LOG_FILE
+    mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOG_FILE
     VALIDATE $? "Setting up root password"
 else
     echo -e "$Y Mysql password is already setup, skipping. $N" &>>$LOG_FILE
