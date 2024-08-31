@@ -52,7 +52,13 @@ VALIDATE $? "Enabled mysql-server"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Started mysql-server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOG_FILE
-VALIDATE $? "Setting up root password"
+mysql -h 52.90.214.243 -u root -pExpenseApp@1 -e 'show databases;'
+if [ $? -eq 0 ]
+then
+    echo -e "$Y Password for root user has been already set. $N" &>>$LOG_FILE
+else
+    mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOG_FILE
+    VALIDATE $? "Setting up root password"
+fi
 
 echo -e "$Y Script completed execution successfully at: $(date) $N" | tee -a $LOG_FILE
