@@ -52,7 +52,7 @@ VALIDATE $? "Enabled mysql-server"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Started mysql-server"
 
-mysql -h 52.90.214.243 -u root -pExpenseApp@1 -e 'show databases;'
+mysql -h 52.90.214.243 -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE
 if [ $? -eq 0 ]
 then
     echo -e "$Y Password for root user has been already set. $N" &>>$LOG_FILE
