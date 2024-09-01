@@ -68,7 +68,29 @@ VALIDATE $? "Creating app folder"
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip  &>>$LOG_FILE
 VALIDATE $? "Downloading backend application code"
 
- cd /app
- rm -rf /app/* &>>$LOG_FILE
- unzip /tmp/backend.zip | tee -a $LOG_FILE
- VALIDATE $? "Extracting backend application code"
+cd /app
+rm -rf /app/* &>>$LOG_FILE
+unzip /tmp/backend.zip &>>$LOG_FILE
+VALIDATE $? "Extracting backend application code"
+
+npm install &>>$LOG_FILE
+VALIDATE $? "Installing dependencies/libraries required for backend app"
+
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
+
+# load the data before running backend
+
+dnf install mysql -y &>>$LOG_FILE
+VALIDATE $? "Installing mysql client"
+
+mysql -h 172.31.47.91 -uroot -pExpenseApp@1 < /app/schema/backend.sql -e 'show databases;' &>>$LOG_FILE
+VALIDATE $? "Schema loading"
+
+systemctl daemon-reload &>>$LOG_FILE
+VALIDATE $? "daemon reload"
+
+systemctl enable backend &>>$LOG_FILE
+VALIDATE $? "Enabled backend"
+
+systemctl restart backend &>>$LOG_FILE
+VALIDATE $? "Restarted backend"
