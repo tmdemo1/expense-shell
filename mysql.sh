@@ -52,7 +52,7 @@ VALIDATE $? "Enabled mysql-server"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Started mysql-server"
 
-mysql -h trmadaws.online -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE
+mysql -h 54.224.191.86 -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     echo -e "$Y Mysql root password is not setup, setting now. $N" &>>$LOG_FILE
