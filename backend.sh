@@ -83,7 +83,7 @@ cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.serv
 dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "Installing mysql client"
 
-mysql -h 172.31.47.91 -uroot -pExpenseApp@1 < /app/schema/backend.sql -e 'show databases;' &>>$LOG_FILE
+mysql -h 172.31.47.91 -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE
 VALIDATE $? "Schema loading"
 
 systemctl daemon-reload &>>$LOG_FILE
